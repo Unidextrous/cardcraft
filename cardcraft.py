@@ -24,11 +24,11 @@ class Card:
 		self.orientation = orientation # Card orientation (upright or reversed)
 	
 	def __repr__(self):
-		return self.name # String representation of the card
+		return self.name
 
 class Deck:
 	"""Represents a deck of cards, which can be split into sub-decks and merged back."""
-	def __init__(self, name, id="0", cards=None, parent=None):
+	def __init__(self, name, id="", cards=None, parent=None):
 		"""
 		Initializes a deck.
 
@@ -41,7 +41,9 @@ class Deck:
 		self.id = id # Binary-like ID to track sub-decks
 		self.cards = cards if cards is not None else [] # List of cards in this deck
 		self.parent = parent # Parent deck (if any)
-		self.children = [] # List of sub-decks (children)
+
+		# If this is the root deck (i.e., parent is None), initialize the children attribute with a new sub-deck that has the same name, the ID "0", and the same cards as the parent deck.
+		self.children = [Deck(self.name, "0", self.cards, self)] if parent is None else []
 		
 		# Prevent decks with invalid names from being created
 		if self.parent == None and ("0" in name or "1" in name):
@@ -51,8 +53,11 @@ class Deck:
 	def get_root(self):
 		"""Finds the root (topmost) deck in the hierarchy."""
 		current = self
-		while current.parent:
-			current = current.parent
+		while current.parent != 0:
+			if current.parent is None:
+				return current
+			else:
+				current = current.parent
 		return current
 		
 	def get_deck(self, id):
@@ -66,7 +71,7 @@ class Deck:
 		current = root  # Start traversal from the root deck
         
         # Traverse down the tree using the ID's binary structure
-		for bit in id[1:]:  # Ignore the first character (root is always "0")
+		for bit in id:
 			if len(current.children) > int(bit):  # Ensure valid index
 				current = current.children[int(bit)]
 			else:
@@ -115,12 +120,12 @@ class Deck:
 		self.add_subdeck(self.id + "0", self.cards[:index])
 		self.add_subdeck(self.id + "1", self.cards[index:])
 		
-	def stack(self, top_deck):
+	def place_onto(self, top_deck):
 		"""
-		Stacks a deck onto the current deck
+		Places top_deck onto self
 
 		"""
-		self.cards = top_deck.cards + self.cards
+		self.cards += top_deck.cards
 		
 		if top_deck.parent:
 			parent = top_deck.parent
@@ -131,18 +136,21 @@ class Deck:
 	def cut(self):
 		"""Performs a cut by splitting and then merging the sub-decks back."""
 		self.split()
-		self.children[0].stack(self.children[1])
+		self.children[1].place_onto(self.children[0])
 		
 	def overhand_shuffle(self):
-		"""Simulates an overhand shuffle by repeatedly taking small portions from the top of the bottom sub-deck and stacking them onto the top one."""
+		"""Simulates an overhand shuffle by repeatedly taking small portions from the top of the bottom sub-deck and placing them onto the top one."""
 		pass
 	
 	def riffle_shuffle(self):
 		"""Simulates a riffle shuffle by splitting the deck into two halves at a slightly varied midpoint."""
+		pass
 	
 	def hindu_shuffle(self):
-		"""Simulates a Hindu shuffle by repeatedly taking small portions from the top of the deck and stacking them onto the hand."""
+		"""Simulates a Hindu shuffle by repeatedly taking small portions from the top of the deck and placing them onto the hand."""
 		pass
 		
 	def __repr__(self):
-		return f"{self.name}#{self.id}: {self.cards}" # String representation of the deck
+		if self.id:
+			return f"{self.name}#{self.id}: {self.cards}"
+		return f"{self.name} Home: {self.cards}"
