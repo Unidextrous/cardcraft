@@ -37,7 +37,7 @@ class Deck:
         :param parent: The parent deck (None if this is the root deck)
         :param cards: The list of cards in the deck
 		"""
-		self.name = name #
+		self.name = name
 		self.id = id # Binary-like ID to track sub-decks
 		self.cards = cards if cards is not None else [] # List of cards in this deck
 		self.parent = parent # Parent deck (if any)
