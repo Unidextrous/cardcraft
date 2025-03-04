@@ -120,23 +120,35 @@ class Deck:
 		self.add_subdeck(self.id + "0", self.cards[:index])
 		self.add_subdeck(self.id + "1", self.cards[index:])
 		
-	def place_onto(self, top_deck):
+	def place_onto(self, top_deck, bottom_deck):
 		"""
-		Places top_deck onto self
+		Places top_deck onto bottom_deck
 
 		"""
-		self.cards += top_deck.cards
-		
+		bottom_deck.cards = top_deck.cards + bottom_deck.cards
 		if top_deck.parent:
 			parent = top_deck.parent
-			sibling = parent.children[0] if parent.children[1] is top_deck else parent.children[1]
+
+			# Identify the sibling deck (the other half of the split)
+			if top_deck.parent.children[0] == top_deck:
+				sibling = top_deck.parent.children[1]
+			elif top_deck.parent.children[1] == top_deck:
+				sibling = top_deck.parent.children[0]
+			else:
+				# Error handling if the deck structure is incorrect
+				print("Error: Top deck is not a child of its parent")
+				sys.exit()
+			
+			# The parent deck now takes on the sibling deck's cards
 			parent.cards = sibling.cards
+
+			# Clear the children list since the decks are merged back
 			parent.children = []
-	
-	def cut(self):
+
+	def cut(self, index=None):
 		"""Performs a cut by splitting and then merging the sub-decks back."""
-		self.split()
-		self.children[1].place_onto(self.children[0])
+		self.split(index)
+		self.place_onto(self.children[1], self.children[0])
 		
 	def overhand_shuffle(self):
 		"""Simulates an overhand shuffle by repeatedly taking small portions from the top of the bottom sub-deck and placing them onto the top one."""
