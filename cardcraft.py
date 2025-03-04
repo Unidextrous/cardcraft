@@ -91,6 +91,9 @@ class Deck:
 		subdeck = Deck(self.name, id, cards, self) # Create two sub-decks from the current deck
 		subdeck.parent = self # Set the current deck as the sub-deck's parent deck
 		self.children.append(subdeck) # Add the sub-deck to the parent deck
+	
+	def order(self):
+		ordered_deck = self.get_root().children = [Deck(self.name, "0", self.cards, self)]
 			
 	def randomize(self):
 		"""Shuffles the deck's cards randomly."""
