@@ -43,12 +43,22 @@ class Deck:
 		self.parent = parent # Parent deck (if any)
 
 		# If this is the root deck (i.e., parent is None), initialize the children attribute with a new sub-deck that has the same name, the ID "0", and the same cards as the parent deck.
-		self.children = [Deck(self.name, "0", self.cards, self)] if parent is None else []
+		self.children = [Deck(self.name, "0", parent=self)] if parent is None else []
 		
 		# Prevent decks with invalid names from being created
 		if self.parent == None and ("0" in name or "1" in name):
 			print(name, "is not a valid name for a deck")
 			sys.exit()
+	
+	def add_cards(self, new_cards):
+		"""
+		Adds multiple cards to the deck at once.
+		
+		:param new_cards: A list of cards to be added to the deck.
+		"""
+		self.cards = new_cards + self.cards
+		if self.children:
+			self.children[0].add_cards(new_cards)
 	
 	def get_root(self):
 		"""Finds the root (topmost) deck in the hierarchy."""
@@ -92,12 +102,14 @@ class Deck:
 		subdeck.parent = self # Set the current deck as the sub-deck's parent deck
 		self.children.append(subdeck) # Add the sub-deck to the parent deck
 	
-	def order(self):
-		ordered_deck = self.get_root().children = [Deck(self.name, "0", self.cards, self)]
-			
 	def randomize(self):
 		"""Shuffles the deck's cards randomly."""
+		
 		random.shuffle(self.cards)
+
+	def order(self):
+		ordered_deck = self.get_root()
+		self.get_deck("0").cards = ordered_deck.cards
 	
 	def split_choice(self):
 		"""
