@@ -38,5 +38,3 @@ for s in suits:
 		playing_cards.append(card)
 
 bytedeck.add_cards(playing_cards)
-
-print(bytedeck)

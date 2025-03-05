@@ -83,5 +83,3 @@ for s in suits:
 		minor_arcana.append(card)
 
 technotarot.add_cards(minor_arcana)
-
-print(technotarot)

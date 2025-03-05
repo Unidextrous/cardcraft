@@ -151,14 +151,7 @@ class Deck:
 			if len(top_deck.parent.children) < 2:
 				print("Error: Top deck has no sibling")
 				sys.exit()
-			elif top_deck.parent.children[0] == top_deck:
-				sibling = top_deck.parent.children[1]
-			elif top_deck.parent.children[1] == top_deck:
-				sibling = top_deck.parent.children[0]
-			else:
-				# Error handling if the deck structure is incorrect
-				print("Error: Top deck is not a child of its parent")
-				sys.exit()
+			sibling = parent.children[1] if parent.children[0] == top_deck else parent.children[0]
 			
 			# The parent deck now takes on the sibling deck's cards
 			parent.cards = sibling.cards
@@ -192,13 +185,13 @@ class Deck:
 		self.place_onto(hand, self.children[0])
 		
 	
-	def riffle_shuffle(self):
+	def bridge_shuffle(self):
 		"""Simulates a riffle shuffle by splitting the deck into two halves at a slightly varied midpoint."""
-		pass
+		raise NotImplementedError("Riffle shuffle is not implemented yet.")
 	
 	def hindu_shuffle(self):
 		"""Simulates a Hindu shuffle by repeatedly taking small portions from the top of the deck and placing them onto the hand."""
-		pass
+		raise NotImplementedError("Hindu shuffle is not implemented yet.")
 		
 	def __repr__(self):
 		if self.id:
