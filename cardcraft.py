@@ -15,7 +15,7 @@ def choose_index(prompt, min_val, max_val):
 class Card:
 	"""Represents a single playing card with properties such as value, suit, and orientation."""
 
-	def __init__(self, home_deck, name, value, suit=None,face_up=False, orientation="upright"):
+	def __init__(self, home_deck, name, value, suit=None, face_up=False, orientation="upright"):
 		self.home_deck = home_deck # The deck this card originally belongs to
 		self.name = name # Card name (e.g. Ace of Spades)
 		self.value = value # Card value (e.g. 1 for Ace, 11 for Jack, etc.)
@@ -27,7 +27,7 @@ class Card:
 		return self.name
 
 class Deck:
-	"""Represents a deck of cards, which can be split into sub-decks and merged back."""
+	"""Represents a deck of cards, which can be split into sub-decks, merged with another deck, or shuffled in various ways."""
 	def __init__(self, name, id="", cards=None, parent=None):
 		"""
 		Initializes a deck.
@@ -57,17 +57,15 @@ class Deck:
 		:param new_cards: A list of cards to be added to the deck.
 		"""
 		self.cards = new_cards + self.cards
+
 		if self.children:
 			self.children[0].add_cards(new_cards)
 	
 	def get_root(self):
 		"""Finds the root (topmost) deck in the hierarchy."""
 		current = self
-		while current.parent != 0:
-			if current.parent is None:
-				return current
-			else:
-				current = current.parent
+		while current.parent is not None:
+			current = current.parent
 		return current
 		
 	def get_deck(self, id):
@@ -134,6 +132,10 @@ class Deck:
 		
 		self.add_subdeck(self.id + "0", self.cards[:index])
 		self.add_subdeck(self.id + "1", self.cards[index:])
+
+		if len(self.children[0].cards) == 0 or len(self.children[1].cards) == 0:
+			self.cards = self.children[0].cards + self.children[1].cards
+			self.children = []
 		
 	def place_onto(self, top_deck, bottom_deck):
 		"""
@@ -145,7 +147,10 @@ class Deck:
 			parent = top_deck.parent
 
 			# Identify the sibling deck (the other half of the split)
-			if top_deck.parent.children[0] == top_deck:
+			if len(top_deck.parent.children) < 2:
+				print("Error: Top deck has no sibling")
+				sys.exit()
+			elif top_deck.parent.children[0] == top_deck:
 				sibling = top_deck.parent.children[1]
 			elif top_deck.parent.children[1] == top_deck:
 				sibling = top_deck.parent.children[0]
@@ -165,9 +170,26 @@ class Deck:
 		self.split(index)
 		self.place_onto(self.children[1], self.children[0])
 		
-	def overhand_shuffle(self):
+	def overhand_shuffle(self, index=None, chunk_range=[3, 9]):
 		"""Simulates an overhand shuffle by repeatedly taking small portions from the top of the bottom sub-deck and placing them onto the top one."""
-		pass
+		if index == None:
+			min_val = (len(self.cards) // 2) - len(self.cards) // 8
+			max_val = (len(self.cards) // 2) + len(self.cards) // 8
+			index = random.randint(min_val, max_val)
+
+		self.split(index)
+
+		chunk_min = chunk_range[0]
+		chunk_max = chunk_range[1]
+
+		hand = self.get_deck(self.id + "1")
+		while len(hand.cards) > 0:
+			hand.split(min(random.randint(chunk_min, chunk_max), len(hand.cards) - 1))
+			if len(hand.children) == 0:
+				break
+			self.place_onto(hand.children[0], self.children[0])
+		self.place_onto(hand, self.children[0])
+		
 	
 	def riffle_shuffle(self):
 		"""Simulates a riffle shuffle by splitting the deck into two halves at a slightly varied midpoint."""
