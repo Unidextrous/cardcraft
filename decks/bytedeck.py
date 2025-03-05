@@ -28,12 +28,11 @@ for s in suits:
 	for i, p in enumerate(pips):
 		if i == 0:
 			card = Card(bytedeck, f"Ace of {s}", 1, s, f"{suits[s]}A")
-			playing_cards.append(card)
 		else:
 			card = Card(bytedeck, f"{p} of {s}", i + 1, s, f"{suits[s]}{i + 1}")
-			playing_cards.append(card)
+		playing_cards.append(card)
 	
-	# Add the court (face) cards
+	# Add the face cards
 	for i, f in enumerate(faces):
 		card = Card(bytedeck, f"{f} of {s}", (i + 11), s, suits[s] + f[0])
 		playing_cards.append(card)
