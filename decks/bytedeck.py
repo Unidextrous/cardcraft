@@ -24,15 +24,15 @@ faces = ["Jack", "Queen", "King"]
 playing_cards = []
 
 for s in suits:
-	playing_cards.append(Card(bytedeck, f"Ace of {s}", "Ace", s, f"{suits[s]}A"))
+	playing_cards.append(Card(bytedeck, f"Ace of {s}", "A", s, suits[s]))
 	# Add the pip cards (Two through Ten)
 	for i, p in enumerate(pips):
-		card = Card(bytedeck, f"{p} of {s}", i + 2, s, f"{suits[s]}{i + 2}")
+		card = Card(bytedeck, f"{p} of {s}", i + 2, s, suits[s])
 		playing_cards.append(card)
 	
 	# Add the face cards
 	for i, f in enumerate(faces):
-		card = Card(bytedeck, f"{f} of {s}", (i + 11), s, f"{suits[s]}{f[0]}")
+		card = Card(bytedeck, f"{f} of {s}", f[0], s, suits[s])
 		playing_cards.append(card)
 
 jokers = []
@@ -47,3 +47,12 @@ for i in range(2):
 	jokers.append(Card(bytedeck, name, 0, None, representation))
 
 bytedeck.add_cards(playing_cards)
+
+while True:
+	choice = input("Add jokers? (y/n): ")
+	if choice.lower() == "y":
+		bytedeck.add_cards(jokers)
+		break
+	elif choice.lower() == "n":
+		break
+	print("Invalid choice")

@@ -15,17 +15,17 @@ def choose_index(prompt, min_val, max_val):
 class Card:
 	"""Represents a single playing card with properties such as value, suit, and orientation."""
 
-	def __init__(self, home_deck, name, value, suit=None, representation=None, face_up=False, orientation="upright"):
+	def __init__(self, home_deck, name, value, suit=None, symbol=None, face_up=False, orientation="upright"):
 		self.home_deck = home_deck # The deck this card originally belongs to
 		self.name = name # Card name (e.g. Ace of Spades)
 		self.value = value # Card value (e.g. 1 for Ace, 11 for Jack, etc.)
 		self.suit = suit # Suit of the card (Hearts, Diamonds, etc.), if applicable
-		self.representation = representation # Unicode representation of the card
+		self.symbol = symbol # Symbol representing the suit (e.g., ♥, ♦, ♠, ♣)
 		self.face_up = face_up # Whether the card is face-up or face-down
 		self.orientation = orientation # Card orientation (upright or reversed)
 	
 	def __repr__(self):
-		return self.representation
+		return f"{self.symbol}{self.value}"
 
 class Deck:
 	"""Represents a deck of cards, which can be split into sub-decks, merged with another deck, or shuffled in various ways."""
