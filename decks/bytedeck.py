@@ -24,17 +24,26 @@ faces = ["Jack", "Queen", "King"]
 playing_cards = []
 
 for s in suits:
-	# Add the numbered cards (Ace through Ten)
+	playing_cards.append(Card(bytedeck, f"Ace of {s}", "Ace", s, f"{suits[s]}A"))
+	# Add the pip cards (Two through Ten)
 	for i, p in enumerate(pips):
-		if i == 0:
-			card = Card(bytedeck, f"Ace of {s}", 1, s, f"{suits[s]}A")
-		else:
-			card = Card(bytedeck, f"{p} of {s}", i + 1, s, f"{suits[s]}{i + 1}")
+		card = Card(bytedeck, f"{p} of {s}", i + 2, s, f"{suits[s]}{i + 2}")
 		playing_cards.append(card)
 	
 	# Add the face cards
 	for i, f in enumerate(faces):
-		card = Card(bytedeck, f"{f} of {s}", (i + 11), s, suits[s] + f[0])
+		card = Card(bytedeck, f"{f} of {s}", (i + 11), s, f"{suits[s]}{f[0]}")
 		playing_cards.append(card)
+
+jokers = []
+
+for i in range(2):
+	if i == 0:
+		name = "Colored Joker"
+		representation = "🃏🎨"
+	else:
+		name = "Black-and-White Joker"
+		representation = "🃏✏️"
+	jokers.append(Card(bytedeck, name, 0, None, representation))
 
 bytedeck.add_cards(playing_cards)

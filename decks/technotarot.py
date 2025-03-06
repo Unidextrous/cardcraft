@@ -19,35 +19,35 @@ technotarot = Deck("TechnoTarot")
 
 # Define the 22 Major Arcana cards (each with a unique name and index)
 trump_cards = {
-	"0.": "The Fool",
-	"I.": "The Magician",
-	"II.": "The High Priestess",
-	"III.": "The Empress",
-	"IV.": "The Emperor",
-	"V.": "The Hierophant",
-	"VI.": "The Lovers",
-	"VII.": "The Chariot",
-	"VIII.": "Strength",
-	"IX.": "The Hermit",
-	"X.": "Wheel of Fortune",
-	"XI.": "Justice",
-	"XII.": "The Hanged Man",
-	"XIII.": "Death",
-	"XIV.": "Temperance",
-	"XV.": "The Devil",
-	"XVI.": "The Tower",
-	"XVII.": "The Star",
-	"XVIII.": "The Moon",
-	"XIX.": "The Sun",
-	"XX.": "Judgement",
-	"XXI.": "The World"
+	"0. The Fool": "🃏0.",
+	"I. The Magician": "♾️I.",
+	"II. The High Priestess": "🔮II.",
+	"III. The Empress": "👸III.",
+	"IV. The Emperor": "🤴IV.",
+	"V. The Hierophant": "⛪V.",
+	"VI. The Lovers": "💕VI.",
+	"VII. The Chariot": "🏇VII.",
+	"VIII. Strength": "💪VIII.",
+	"IX. The Hermit": "🔦IX.",
+	"X. Wheel of Fortune": "🔄X.",
+	"XI. Justice": "⚖️XI.",
+	"XII. The Hanged Man": "🪢XII.",
+	"XIII. Death": "💀XIII.",
+	"XIV. Temperance": "🏺XIV.",
+	"XV. The Devil": "😈XV.",
+	"XVI. The Tower": "⚡XVI",
+	"XVII. The Star": "🌟XVII.",
+	"XVIII. The Moon": "🌙XVIII.",
+	"XIX. The Sun": "☀️XIX.",
+	"XX. Judgement": "🎺XX.",
+	"XXI. The World": "🌎XXI."
 }
 
 # Create and add Major Arcana cards to the deck
 major_arcana = []
 
-for i, rank in enumerate(trump_cards):
-	card = Card(technotarot, f"{rank} {trump_cards[rank]}", i, representation=rank)
+for i, name in enumerate(trump_cards):
+	card = Card(technotarot, name, i, "Major Arcana", representation=trump_cards[name])
 	major_arcana.append(card)
 
 technotarot.add_cards(major_arcana)
@@ -57,7 +57,7 @@ minor_arcana = []
 
 # Define the four suits of the Minor Arcana
 suits = {
-	"Pentacles": "🪙", "Cups": "💧", "Swords": "🗡️", "Wands": "🪄"
+	"Pentacles": "🪙", "Cups": "🍵", "Swords": "⚔️", "Wands": "🪄"
 }
 
 # Define the pip (numbered) and face cards
@@ -66,12 +66,10 @@ faces = ["Page", "Knight", "Queen", "King"]
 
 # Create and add Minor Arcana cards to the deck
 for s in suits:
-	# Add the numbered cards (Ace through Ten)
+	minor_arcana.append(Card(technotarot, f"Ace of {s}", -1, s, f"{suits[s]}A"))
+	# Add the numbered cards (Two through Ten)
 	for i, p in enumerate(pips):
-		if i == 0:
-			card = Card(technotarot, f"Ace of {s}", 1, s, f"{suits[s]}A")
-		else:
-			card = Card(technotarot, f"{p} of {s}", (i + 1), s, f"{suits[s]}{i + 1}")
+		card = Card(technotarot, f"{p} of {s}", -(i + 2), s, f"{suits[s]}{i + 2}")
 		minor_arcana.append(card)
 	
 	# Add the court (face) cards
