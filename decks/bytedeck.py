@@ -37,14 +37,8 @@ for s in suits:
 
 jokers = []
 
-for i in range(2):
-	if i == 0:
-		name = "Colored Joker"
-		representation = "🃏🎨"
-	else:
-		name = "Black-and-White Joker"
-		representation = "🃏✏️"
-	jokers.append(Card(bytedeck, name, 0, None, representation))
+jokers.append(Card(bytedeck, "Colored Joker", "🎨", None, "🃏"))
+jokers.append(Card(bytedeck, "Black-and-White Joker", "✏️", None, "🃏"))
 
 bytedeck.add_cards(playing_cards)
 

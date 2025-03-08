@@ -95,7 +95,7 @@ class Deck:
 		:param cards: The list of cards to be added to the sub-deck
 		"""
 		if self.get_deck(id):
-			print("Deck already exists")
+			print(f"Deck#{id} already exists")
 			return
 		subdeck = Deck(self.name, id, cards, self) # Create two sub-decks from the current deck
 		subdeck.parent = self # Set the current deck as the sub-deck's parent deck
@@ -164,12 +164,15 @@ class Deck:
 		self.split(index)
 		self.place_onto(self.children[1], self.children[0])
 		
-	def overhand_shuffle(self, index=None, chunk_range=[3, 9]):
+	def overhand_shuffle(self, index=None, chunk_range=None):
 		"""Simulates an overhand shuffle by repeatedly taking small portions from the top of the bottom sub-deck and placing them onto the top one."""
+		if chunk_range == None:
+			chunk_range = [3, 9]
+		
 		if index == None:
-			min_val = (len(self.cards) // 2) - len(self.cards) // 8
-			max_val = (len(self.cards) // 2) + len(self.cards) // 8
-			index = random.randint(min_val, max_val)
+			mid = len(self.cards) // 2
+			variation =  len(self.cards) // 8
+			index = random.randint(mid - variation, mid + variation)
 
 		self.split(index)
 
@@ -178,16 +181,17 @@ class Deck:
 
 		hand = self.get_deck(self.id + "1")
 		while len(hand.cards) > 0:
-			hand.split(min(random.randint(chunk_min, chunk_max), len(hand.cards) - 1))
+			chunk_size = random.randint(chunk_min, chunk_max)
+			hand.split(min(chunk_size, len(hand.cards) - 1))
 			if len(hand.children) == 0:
 				break
 			self.place_onto(hand.children[0], self.children[0])
 		self.place_onto(hand, self.children[0])
 		
 	
-	def bridge_shuffle(self):
-		"""Simulates a riffle shuffle by splitting the deck into two halves at a slightly varied midpoint."""
-		raise NotImplementedError("Riffle shuffle is not implemented yet.")
+	def bridge_shuffle(self, index=None, riffle_range=None):
+		"""Simulates a bridge shuffle by splitting the deck into two halves at a slightly varied midpoint."""
+		raise NotImplementedError("Bridge shuffle is not implemented yet.")
 	
 	def hindu_shuffle(self):
 		"""Simulates a Hindu shuffle by repeatedly taking small portions from the top of the deck and placing them onto the hand."""
