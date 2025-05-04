@@ -50,3 +50,5 @@ while True:
 	elif choice.lower() == "n":
 		break
 	print("Invalid choice")
+
+bytedeck.shuffle()
