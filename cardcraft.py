@@ -138,31 +138,33 @@ class Deck:
 			self.cards = self.children[0].cards + self.children[1].cards
 			self.children = []
 		
-	def place_onto(self, top_deck, bottom_deck):
+	def place_onto(self, bottom_deck):
 		"""
 		Places top_deck onto bottom_deck
 
 		"""
-		bottom_deck.cards = top_deck.cards + bottom_deck.cards
-		if top_deck.parent:
-			parent = top_deck.parent
+		bottom_deck.cards = self.cards + bottom_deck.cards
+		if self.parent:
+			parent = self.parent
 
 			# Identify the sibling deck (the other half of the split)
-			if len(top_deck.parent.children) < 2:
-				print("Error: Top deck has no sibling")
-				sys.exit()
-			sibling = parent.children[1] if parent.children[0] == top_deck else parent.children[0]
+			if len(self.parent.children) == 2:
+				sibling = parent.children[1] if parent.children[0] == self else parent.children[0]
 			
-			# The parent deck now takes on the sibling deck's cards
-			parent.cards = sibling.cards
+				# The parent deck now takes on the sibling deck's cards
+				parent.cards = sibling.cards
 
-			# Clear the children list since the decks are merged back
-			parent.children = []
+				# Clear the children list since the decks are merged back
+				parent.children = []
 
 	def cut(self, index=None):
 		"""Performs a cut by splitting and then merging the sub-decks back."""
+		if index == None:
+			mid = len(self.cards) // 2
+			variation =  len(self.cards) // 8
+			index = random.randint(mid - variation, mid + variation)
 		self.split(index)
-		self.place_onto(self.children[1], self.children[0])
+		self.children[1].place_onto(self.children[0])
 		
 	def overhand_shuffle(self, index=None, chunk_range=None):
 		"""Simulates an overhand shuffle by repeatedly taking small portions from the top of the bottom sub-deck and placing them onto the top one."""
@@ -185,18 +187,81 @@ class Deck:
 			hand.split(min(chunk_size, len(hand.cards) - 1))
 			if len(hand.children) == 0:
 				break
-			self.place_onto(hand.children[0], self.children[0])
-		self.place_onto(hand, self.children[0])
-		
+			hand.children[0].place_onto(self.children[0])
+		hand.place_onto(self.children[0])
+
+	def riffle_split(self, riffle_range):
+		max_riffle_index = len(self.cards) - riffle_range[0]
+		min_riffle_index = len(self.cards) - riffle_range[1]
+		self.split(min(random.randint(min_riffle_index, max_riffle_index), len(self.cards)))
 	
 	def bridge_shuffle(self, index=None, riffle_range=None):
 		"""Simulates a bridge shuffle by splitting the deck into two halves at a slightly varied midpoint."""
-		raise NotImplementedError("Bridge shuffle is not implemented yet.")
-	
-	def hindu_shuffle(self):
-		"""Simulates a Hindu shuffle by repeatedly taking small portions from the top of the deck and placing them onto the hand."""
-		raise NotImplementedError("Hindu shuffle is not implemented yet.")
+		if riffle_range == None:
+			riffle_range = [1, 5]
+
+		if index == None:
+			mid = len(self.cards) // 2
+			variation =  len(self.cards) // 8
+			index = random.randint(mid - variation, mid + variation)
 		
+		self.split(index)
+		subdeck0 = self.get_deck(self.id + "0")
+		subdeck1 = self.get_deck(self.id + "1")
+
+		subdeck0.riffle_split(riffle_range)
+
+		subdeck00 = self.get_deck(subdeck0.id + "0")
+		subdeck01 = self.get_deck(subdeck0.id + "1")
+
+		while (len(self.children)) > 0:
+			if len(subdeck0.children) > 0:
+				if subdeck1:
+					subdeck1.riffle_split(riffle_range)
+					subdeck10 = self.get_deck(subdeck1.id + "0")
+					subdeck11 = self.get_deck(subdeck1.id + "1")
+
+					if subdeck11:
+						subdeck11.place_onto(subdeck01)
+					
+				if subdeck00:
+					subdeck00.riffle_split(riffle_range)
+					subdeck000 = self.get_deck(subdeck00.id + "0")
+					subdeck001 = self.get_deck(subdeck00.id + "1")
+
+					if subdeck001:
+						subdeck001.place_onto(subdeck01)
+					else:
+						subdeck00.place_onto(subdeck01)
+
+			if len(subdeck0.children) == 0 and subdeck1:
+				subdeck1.place_onto(subdeck0)
+	
+	def faro_shuffle(self):
+		"""Simulates a Faro shuffle by splitting the deck into two equal halves and then interleaving the cards."""
+		self.bridge_shuffle(len(self.cards) // 2, [1, 1])
+
+	def shuffle(self):
+		deck = self.get_deck("0")
+		while True:
+			choice = input("1. Order Deck\n2. Cut Deck\n3. Overhand Shuffle\n4. Bridge Shuffle\n5. Faro Shuffle\n6. Randomize\n7. End Shuffle\n>>> ")
+			match choice:
+				case "1":
+					deck.order()
+				case "2":
+					deck.cut()
+				case "3":
+					deck.overhand_shuffle()
+				case "4":
+					deck.bridge_shuffle()
+				case "5":
+					deck.faro_shuffle()
+				case "6":
+					deck.randomize()
+				case "7":
+					break
+			print(deck)
+
 	def __repr__(self):
 		if self.id:
 			return f"{self.name}#{self.id}: {self.cards}"
