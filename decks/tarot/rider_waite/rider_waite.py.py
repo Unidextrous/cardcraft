@@ -1,21 +1,15 @@
-"""
-technotarot.py
-
-This script defines a TechnoTarot deck using the Card and Deck classes from the cardcraft module.
-It initializes all Major and Minor Arcana cards and adds them to the deck.
-"""
-
-
 # Add the parent directory to the system path to allow importing from cardcraft
 import sys, os
-current_dir = os.path.dirname(os.path.abspath(__file__))
-parent_dir = os.path.dirname(current_dir)
-sys.path.append(parent_dir)
+rider_waite_dir = os.path.dirname(os.path.abspath(__file__))
+tarot_dir = os.path.dirname(rider_waite_dir)
+decks_dir = os.path.dirname(tarot_dir)
+cardcraft_dir = os.path.dirname(decks_dir)
+sys.path.append(cardcraft_dir)
 
 from cardcraft import Card, Deck
 
-# Create the TechnoTarot deck
-technotarot = Deck("TechnoTarot")
+# Create the Rider-Waite deck
+rider_waite = Deck("Rider-Waite")
 
 # Define the 22 Major Arcana cards (each with a unique name and index)
 trump_cards = {
@@ -47,17 +41,17 @@ trump_cards = {
 major_arcana = []
 
 for i, name in enumerate(trump_cards):
-	card = Card(technotarot, name, "", "Major Arcana", trump_cards[name])
+	card = Card(rider_waite, name, "", "Major Arcana", trump_cards[name])
 	major_arcana.append(card)
 
-technotarot.add_cards(major_arcana)
+rider_waite.add_cards(major_arcana)
 
 # Create and add Minor Arcana cards to the deck
 minor_arcana = []
 
 # Define the four suits of the Minor Arcana
 suits = {
-	"Pentacles": "🪙", "Cups": "🍵", "Swords": "⚔️", "Wands": "🪄"
+	"Wands": "🪄", "Cups": "🍵", "Swords": "⚔️", "Pentacles": "🪙"
 }
 
 # Define the pip (numbered) and face cards
@@ -66,18 +60,20 @@ faces = ["Page", "Knight", "Queen", "King"]
 
 # Create and add Minor Arcana cards to the deck
 for s in suits:
-	minor_arcana.append(Card(technotarot, f"Ace of {s}", "A", s, suits[s]))
+	minor_arcana.append(Card(rider_waite, f"Ace of {s}", "A", s, suits[s]))
 	# Add the numbered cards (Two through Ten)
 	for i, p in enumerate(pips):
-		card = Card(technotarot, f"{p} of {s}", str(i + 2), s, suits[s])
+		card = Card(rider_waite, f"{p} of {s}", str(i + 2), s, suits[s])
 		minor_arcana.append(card)
 	
 	# Add the court (face) cards
 	for i, f in enumerate(faces):
 		if f == "Knight":
-			card = Card(technotarot, f"{f} of {s}", "N", s, suits[s])
+			card = Card(rider_waite, f"{f} of {s}", "N", s, suits[s])
 		else:
-			card = Card(technotarot, f"{f} of {s}", f[0], s, suits[s])
+			card = Card(rider_waite, f"{f} of {s}", f[0], s, suits[s])
 		minor_arcana.append(card)
 
-technotarot.add_cards(minor_arcana)
+rider_waite.add_cards(minor_arcana)
+
+print(rider_waite)

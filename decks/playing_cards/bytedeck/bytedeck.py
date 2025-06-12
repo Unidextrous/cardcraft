@@ -1,8 +1,10 @@
 # Add the parent directory to the system path to allow importing from cardcraft
 import sys, os
-current_dir = os.path.dirname(os.path.abspath(__file__))
-parent_dir = os.path.dirname(current_dir)
-sys.path.append(parent_dir)
+bytedeck_dir = os.path.dirname(os.path.abspath(__file__))
+playing_cards_dir = os.path.dirname(bytedeck_dir)
+decks_dir = os.path.dirname(playing_cards_dir)
+cardcraft_dir = os.path.dirname(decks_dir)
+sys.path.append(cardcraft_dir)
 
 from cardcraft import Card, Deck
 
