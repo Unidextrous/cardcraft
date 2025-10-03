@@ -16,7 +16,7 @@ class Card:
 		self.orientation = "reversed" if self.orientation == "upright" else "upright"
 
 	def __repr__(self):
-		return f"{self.symbol}{self.value}"
+		return f"{self.symbol}{self.value}({self.orientation[0]})"
 
 class Deck:
 	def __init__(self, name, cards=None):
@@ -79,6 +79,30 @@ class Deck:
 
 		self.cards = shuffled
 		return dropped_cards
+
+	def bridge_shuffle(self, reverse=False):
+		"""
+		Perform a bridge (riffle) shuffle by splitting the deck in half and interleaving cards.
+
+		:param reverse: If True, the bottom half is reversed and all cards rotated
+		"""
+		mid = len(self.cards) // 2
+		top = self.cards[:mid]
+		bottom = self.cards[mid:]
+
+		if reverse:
+			bottom.reverse()
+			for card in bottom:
+				card.rotate()
+
+		shuffled = []
+		while top or bottom:
+			if top and (not bottom or random.random() > 0.5):
+				shuffled.append(top.pop(0))
+			elif bottom:
+				shuffled.append(bottom.pop(-1))
+
+		self.cards = shuffled
 
 	def reset_order(self):
 		"""Reset deck to original order and orientation."""
