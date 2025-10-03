@@ -26,28 +26,28 @@ faces = ["Jack", "Queen", "King"]
 playing_cards = []
 
 for s in suits:
-	playing_cards.append(Card(bytedeck, f"Ace of {s}", "A", s, suits[s]))
+	playing_cards.append(Card(f"Ace of {s}", "A", s, suits[s]))
 	# Add the pip cards (Two through Ten)
 	for i, p in enumerate(pips):
-		card = Card(bytedeck, f"{p} of {s}", i + 2, s, suits[s])
+		card = Card(f"{p} of {s}", i + 2, s, suits[s])
 		playing_cards.append(card)
 	
 	# Add the face cards
 	for i, f in enumerate(faces):
-		card = Card(bytedeck, f"{f} of {s}", f[0], s, suits[s])
+		card = Card(f"{f} of {s}", f[0], s, suits[s])
 		playing_cards.append(card)
+
+bytedeck.cards += playing_cards
 
 jokers = []
 
-jokers.append(Card(bytedeck, "Colored Joker", "🎨", None, "🃏"))
-jokers.append(Card(bytedeck, "Black-and-White Joker", "✏️", None, "🃏"))
-
-bytedeck.add_cards(playing_cards)
+jokers.append(Card("Colored Joker", "🎨", None, "🃏"))
+jokers.append(Card("Black-and-White Joker", "✏️", None, "🃏"))
 
 while True:
 	choice = input("Add jokers? (y/n): ")
 	if choice.lower() == "y":
-		bytedeck.add_cards(jokers)
+		bytedeck.cards += jokers
 		break
 	elif choice.lower() == "n":
 		break
