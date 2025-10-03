@@ -104,6 +104,38 @@ class Deck:
 
 		self.cards = shuffled
 
+	def faro_shuffle(self, reverse=False):
+		"""
+		Perform a Faro shuffle by splitting the deck in half and perfectly interleaving the cards.
+		
+		:param reverse: If True, the bottom half is reversed and all cards rotated
+		"""
+		mid = len(self.cards) // 2
+		top = self.cards[:mid]
+		bottom = self.cards[mid:]
+
+		if reverse:
+			bottom.reverse()
+			for card in bottom:
+				card.rotate()
+		
+		bottom = bottom[::-1]
+
+		shuffled = []
+		# Interleave cards from top and bottom
+		for t, b in zip(top, bottom):
+			shuffled.append(t)
+			shuffled.append(b)
+
+		# If the deck has an odd number of cards, append the last remaining card
+		if len(top) > len(bottom):
+			shuffled.append(top[-1])
+		elif len(bottom) > len(top):
+			shuffled.append(bottom[-1])
+
+		self.cards = shuffled
+
+
 	def reset_order(self):
 		"""Reset deck to original order and orientation."""
 		self.cards = list(self.original_order)
