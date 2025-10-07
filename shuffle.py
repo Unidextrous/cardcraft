@@ -29,13 +29,13 @@ def choose_deck(cancel_option = False):
 deck = choose_deck()
 
 helpscreen = """1. Draw
-2. Reverse Deck
+2. Rotate Deck
 3. Cut
 4. Randomize
 5. Overhand Shuffle
 6. Messy Overhand Shuffle
 7. Bridge Shuffle
-8. Bridge Shuffle (Reverse Bottom Deck)
+8. Bridge Shuffle (Rotate Bottom Deck)
 9. Faro Shuffle
 10. Reset Order
 11. See all cards
@@ -75,7 +75,7 @@ while True:
         print(drawn_cards, "\n")
     
     elif action == 2:
-        deck.reverse()
+        deck.rotate()
     
     elif action == 3:
         while True:
@@ -109,7 +109,7 @@ while True:
         print()
     
     elif action == 8:
-        deck.bridge_shuffle(reverse=True)
+        deck.bridge_shuffle(rotate=True)
         print()
     
     elif action == 9:

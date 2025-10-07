@@ -33,9 +33,8 @@ class Deck:
 		self.cards = self.cards[n:]
 		return drawn
 	
-	def reverse(self):
-		"""Reverse the deck order and rotate all cards."""
-		self.cards.reverse()
+	def rotate(self):
+		"""Rotate the deck order and rotate all cards."""
 		for card in self.cards:
 			card.rotate()
 
@@ -83,18 +82,17 @@ class Deck:
 		self.cards = shuffled
 		return dropped_cards
 
-	def bridge_shuffle(self, reverse=False):
+	def bridge_shuffle(self, rotate=False):
 		"""
 		Perform a bridge (riffle) shuffle by splitting the deck in half and interleaving cards.
 
-		:param reverse: If True, the bottom half is reversed and all cards rotated
+		:param rotate: If True, the bottom half is rotated and all cards rotated
 		"""
 		mid = len(self.cards) // 2
 		top = self.cards[:mid]
 		bottom = self.cards[mid:]
 
-		if reverse:
-			bottom.reverse()
+		if rotate:
 			for card in bottom:
 				card.rotate()
 
@@ -107,18 +105,18 @@ class Deck:
 
 		self.cards = shuffled
 
-	def faro_shuffle(self, reverse=False):
+	def faro_shuffle(self, rotate=False):
 		"""
 		Perform a Faro shuffle by splitting the deck in half and perfectly interleaving the cards.
 		
-		:param reverse: If True, the bottom half is reversed and all cards rotated
+		:param rotate: If True, the bottom half is rotated and all cards rotated
 		"""
 		mid = len(self.cards) // 2
 		top = self.cards[:mid]
 		bottom = self.cards[mid:]
 
-		if reverse:
-			bottom.reverse()
+		if rotate:
+			bottom.rotate()
 			for card in bottom:
 				card.rotate()
 		
