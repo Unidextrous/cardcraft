@@ -4,7 +4,7 @@ from cardcraft_core import Card, Deck
 singularity = Deck("The Singularity")
 
 # Define the 32 Major Arcana cards (each with a unique name and index)
-major_arcana_dict = {
+arcana_prime_dict = {
     "I. The Source": "I. 🌌",
     "II. The Dreamer": "II. 🌙",
     "III. The Architect": "III. 📐",
@@ -17,7 +17,7 @@ major_arcana_dict = {
     "X. The Philosopher": "X. 💭",
     "XI. The Intelligence": "XI. 🧠",
     "XII. The Magician": "XII. 🪄",
-    "XIII. The Oracle": "XIII. 👁️",
+    "XIII. The Oracle": "XIII. 🔮",
     "XIV. The Technomage": "XIV. 🧙‍♂️",
     "XV. The Programmer": "XV. 💻",
     "XVI. The Algorithm": "XVI. 📊",
@@ -30,63 +30,67 @@ major_arcana_dict = {
     "XXIII. The Hacker": "XXIII. 🔧",
     "XXIV. The Cyborg": "XXIV. 🦾",
     "XXV. The Glitch": "XXV. ⚠️",
-    "XXVI. The Paradox": "XXVI. ❓",
+    "XXVI. The Paradox": "XXVI. 🤯",
     "XXVII. The Mirror": "XXVII. 🪞",
     "XXVIII. The Prism": "XXVIII. 🌈",
     "XXIX. The Lens": "XXIX. 🔍",
-    "XXX. The Enlightenment": "XXX. 🕉️",
+    "XXX. The Observer": "XXX. 👁️",
     "XXXI. The Infinite": "XXXI. ♾️",
     "XXXII. The Singularity": "XXXII. 🌀"
 }
 
-major_arcana = []
+arcana_prime = []
 
-for i, name in enumerate(major_arcana_dict):
-	card = Card(name, "", "Major Arcana", major_arcana_dict[name])
-	major_arcana.append(card)
+for i, name in enumerate(arcana_prime_dict):
+	card = Card(name, i + 1, "Arcana Prime", arcana_prime_dict[name])
+	arcana_prime.append(card)
 
-singularity.cards += major_arcana
+singularity.cards += arcana_prime
 
 # Create 16 pairs of Minor Arcana cards, totaling 32
-minor_arcana_dict = {
-"1A. Human": "1A. 🧍",
-"1B. Machine": "1B. 🤖",
-"2A. Lucidity": "2A. 🧘",
-"2B. Insanity": "2B. 😵‍💫",
-"3A. Individual": "3A. 👤",
-"3B. Collective": "3B. 👥",
-"4A. Male": "4A. ♂️",
-"4B. Female": "4B. ♀️",
-"5A. Freedom": "5A. 🕊️",
-"5B. Constraint": "5B. ⛓️",
-"6A. Magical": "6A. 🔮",
-"6B. Mundane": "6B. 🏠",
-"7A. Potential": "7A. ✨",
-"7B. Manifestation": "7B. 💡",
-"8A. Chaos": "8A. 🌪️",
-"8B. Order": "8B. ⚖️",
-"9A. Light": "9A. 🌞",
-"9B. Shadow": "9B. 🌑",
-"10A. Micro": "10A. 🔬",
-"10B. Macro": "10B. 🏔️",
-"11A. Creation": "11A. 🖌️",
-"11B. Destruction": "11B. ☠️",
-"12A. Positive": "12A. ➕",
-"12B. Negative": "12B. ➖",
-"13A. Above": "13A. ⬆️",
-"13B. Below": "13B. ⬇️",
-"14A. Inner": "14A. 🪆",
-"14B. Outer": "14B. 🌍",
-"15A. Hot": "15A. 🔥",
-"15B. Cold": "15B. ❄️",
-"16A. Good": "16A. 😇",
-"16B. Evil": "16B. 😈"
+mirror_arcana_dict = {
+    "1A. Creation": "1A. 🖌️",
+    "2A. Light": "2A. 🌞",
+    "3A. Simple": "3A. ⚪",
+    "4A. Chaos": "4A. 🌪️",
+    "5A. Potential": "5A. ✨",
+    "6A. Constraint": "6A. ⛓️",
+	"7A. Ignorance": "7A. ❔",
+    "8A. Micro": "8A. 🔬",
+    "9A. Individual": "9A. 👤",
+    "10A. Organic": "10A. 🧬",
+    "11A. Male": "11A. ♂️",
+    "12A. Mundane": "12A. 🏠",
+	"13A. Stagnation": "13A. 🏜️",
+    "14A. Random": "14A. 🎲",
+    "15A. Below": "15A. ⬇️",
+    "16A. Inner": "16A. 🪆",
+    "16B. Outer": "16B. 🌍",
+    "15B. Above": "15B. ⬆️",
+    "14B. Intentional": "14B. 🎯",
+	"13B. Growth": "13B. 🌳",
+    "12B. Magical": "12B. 🕯️",
+    "11B. Artificial": "11B. 🤖",
+    "10B. Collective": "10B. 👥",
+    "9B. Female": "9B. ♀️",
+    "8B. Macro": "8B. 🏔️",
+	"7B. Knowledge": "7B. 📚",
+    "6B. Freedom": "6B. 🕊️",
+    "5B. Manifestation": "5B. 💡",
+    "4B. Order": "4B. ⚖️",
+    "3B. Complex": "3B. 🧩",
+    "2B. Shadow": "2B. 🌑",
+    "1B. Destruction": "1B. ☠️"
 }
 
-minor_arcana = []
+mirror_arcana = []
 
-for i, name in enumerate(minor_arcana_dict):
-	card = Card(name, "", "Minor Arcana", minor_arcana_dict[name])
-	minor_arcana.append(card)
+for i, name in enumerate(mirror_arcana_dict):
+	if i < 16:
+		value = 1 + i
+	else:
+		value = 32 - i
+	card = Card(name, value, "Mirror Arcana", mirror_arcana_dict[name])
+	mirror_arcana.append(card)
 	
-singularity.cards += minor_arcana
+singularity.cards += mirror_arcana

@@ -16,7 +16,7 @@ class Card:
 		self.orientation = "reversed" if self.orientation == "upright" else "upright"
 
 	def __repr__(self):
-		return f"{self.symbol}{self.value}({self.orientation[0]})"
+		return f"{self.symbol}{self.value}({self.orientation})"
 
 class Deck:
 	def __init__(self, name, cards=None):
@@ -134,7 +134,6 @@ class Deck:
 			shuffled.append(bottom[-1])
 
 		self.cards = shuffled
-
 
 	def reset_order(self):
 		"""Reset deck to original order and orientation."""
