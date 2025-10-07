@@ -53,3 +53,5 @@ for suit, symbol in suits.items():
         minor_arcana.append(Card(f"{face} of {suit}", i, suit, symbol))
 
 rider_waite.cards += minor_arcana
+
+rider_waite.finalize_init()

@@ -94,3 +94,5 @@ for i, name in enumerate(mirror_arcana_dict):
 	mirror_arcana.append(card)
 	
 singularity.cards += mirror_arcana
+
+singularity.finalize_init()

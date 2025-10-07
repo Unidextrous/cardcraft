@@ -8,7 +8,10 @@ def choose_deck(cancel_option = False):
             print("Type X to Cancel")
         
         selection = input(">>> ")
-        if selection in ["1", "1."]:
+
+        if cancel_option and selection == "X":
+            return
+        elif selection in ["1", "1."]:
             import bytedeck
             return bytedeck.bytedeck
             break
@@ -76,7 +79,7 @@ while True:
     
     elif action == 3:
         while True:
-            cut_index_str = input("Cut Where? (Type ? for Random)\n>>> ")
+            cut_index_str = input("Cut Where? (Type ? for Random)\n\n>>> ")
             if cut_index_str == "?":
                 cut_index = None
                 break
@@ -87,30 +90,39 @@ while True:
                 except:
                     print("Invalid Selection\n")
         deck.cut(cut_index)
+        print()
     
     elif action == 4:
         deck.randomize()
+        print()
     
     elif action == 5:
         deck.overhand_shuffle()
+        print()
     
     elif action == 6:
-        deck.overhand_shuffle(messy=True)
+        print(deck.overhand_shuffle(messy=True))
+        print()
     
     elif action == 7:
         deck.bridge_shuffle()
+        print()
     
     elif action == 8:
         deck.bridge_shuffle(reverse=True)
+        print()
     
     elif action == 9:
         deck.faro_shuffle()
+        print()
     
     elif action == 10:
         deck.reset_order()
+        print()
     
     elif action == 11:
-        print(deck.cards)
+        print(deck.cards, "\n")
     
     elif action == 12:
         print("Select New Deck (Type X to cancel)")
+        choose_deck(cancel_option=True)

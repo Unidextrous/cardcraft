@@ -24,6 +24,9 @@ class Deck:
 		self.cards = cards or []
 		self.original_order = list(self.cards)  # Keep a copy for resets
 
+	def finalize_init(self):
+		self.original_order = list(self.cards)
+
 	def draw(self, n=1):
 		"""Draw n cards from the top."""
 		drawn = self.cards[:n]
@@ -100,7 +103,7 @@ class Deck:
 			if top and (not bottom or random.random() > 0.5):
 				shuffled.append(top.pop(0))
 			elif bottom:
-				shuffled.append(bottom.pop(-1))
+				shuffled.append(bottom.pop(0))
 
 		self.cards = shuffled
 

@@ -44,3 +44,5 @@ while True:
 	elif choice.lower() == "n":
 		break
 	print("Invalid choice")
+
+bytedeck.finalize_init()
