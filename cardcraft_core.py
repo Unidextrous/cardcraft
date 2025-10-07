@@ -30,7 +30,6 @@ class Deck:
 	def draw(self, n=1):
 		"""Draw n cards from the top."""
 		drawn = self.cards[:n]
-		self.cards = self.cards[n:]
 		return drawn
 	
 	def rotate(self):

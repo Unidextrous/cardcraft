@@ -15,7 +15,7 @@ trump_cards = [
     ("VII. The Chariot", "🏇", 7),
     ("VIII. Strength", "💪", 8),
     ("IX. The Hermit", "🔦", 9),
-    ("X. Wheel of Fortune", "🔄", 10),
+    ("X. Wheel of Fortune", "🛞", 10),
     ("XI. Justice", "⚖️", 11),
     ("XII. The Hanged Man", "🪢", 12),
     ("XIII. Death", "💀", 13),

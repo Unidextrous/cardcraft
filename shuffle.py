@@ -76,6 +76,7 @@ while True:
     
     elif action == 2:
         deck.rotate()
+        print()
     
     elif action == 3:
         while True:
@@ -125,4 +126,8 @@ while True:
     
     elif action == 12:
         print("Select New Deck (Type X to cancel)")
-        choose_deck(cancel_option=True)
+        deck = choose_deck(cancel_option=True)
+        print()
+    
+    else:
+        print("Invalid Selection\n")
