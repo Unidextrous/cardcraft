@@ -3,13 +3,20 @@ import random
 class Card:
 	"""Represents a single playing card with properties such as value, suit, and orientation."""
 
-	def __init__(self, name, value, suit=None, symbol=None, face_up=False, orientation="upright"):
+	def __init__(self,
+			name, value, suit=None, symbol=None,
+			face_up=False, orientation="upright",
+			upright_meaning=None, reversed_meaning=None, keywords=None, associations=None):
 		self.name = name # Card name (e.g. Ace of Spades)
 		self.value = value # Card value (e.g. 1 for Ace, 11 for Jack, etc.)
 		self.suit = suit # Suit of the card (Hearts, Diamonds, etc.), if applicable
 		self.symbol = symbol # Symbol representing the suit (e.g., ♥, ♦, ♠, ♣)
 		self.face_up = face_up # Whether the card is face-up or face-down
 		self.orientation = orientation # Card orientation (upright or reversed)
+		self.upright_meaning = upright_meaning
+		self.reversed_meaning = reversed_meaning
+		self.keywords = keywords
+		self.associations = associations
 	
 	def rotate(self):
 		"""Toggle orientation."""

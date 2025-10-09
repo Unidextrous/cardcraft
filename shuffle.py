@@ -59,6 +59,7 @@ while True:
             action = int(f"{action}.")
         except:
             print("Invalid Selection\n")
+            continue
     if action not in range(1, 13):
         print("Invalid Selection\n")
     
@@ -128,6 +129,3 @@ while True:
         print("Select New Deck (Type X to cancel)")
         deck = choose_deck(cancel_option=True)
         print()
-    
-    else:
-        print("Invalid Selection\n")

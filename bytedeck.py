@@ -37,12 +37,12 @@ jokers.append(Card("Colored Joker", "🎨", None, "🃏"))
 jokers.append(Card("Black-and-White Joker", "✏️", None, "🃏"))
 
 while True:
-	choice = input("Add jokers? (y/n): ")
+	choice = input("Add jokers? (y/n)\n\n>>> ")
 	if choice.lower() == "y":
 		bytedeck.cards += jokers
 		break
 	elif choice.lower() == "n":
 		break
-	print("Invalid choice")
+	print("Invalid choice\n")
 
 bytedeck.finalize_init()
